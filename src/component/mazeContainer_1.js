@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button,Modal } from 'react-bootstrap';
 import './mazeContainer_1.css'
+import Draggable from 'react-draggable';
 var Heap = require('heap');
 var stk = [];
 
@@ -214,9 +215,43 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <Draggable>
         <div className="block">
-        Hiii
-        </div>
+        
+										<p className="mb15">Select Algorithm</p>
+										<div className="md-radio md-primary">
+											<label>
+												<input type="radio" name="radioDemo" checked=""/> 
+												<span>A*</span>
+											</label>
+										</div>
+										<div className="md-radio md-warn">
+											<label>
+												<input type="radio" name="radioDemo"/> 
+												<span>DFS</span>
+											</label>
+										</div>
+										<div className="md-radio">
+											<label>
+												<input type="radio" name="radioDemo"/> 
+												<span>Dijkstra</span>
+											</label>
+										</div>
+										<div className="md-radio">
+											<label>
+												<input type="radio" name="radioDemo"/> 
+												<span>IDA*</span>
+											</label>
+										</div>
+										<div className="md-radio">
+											<label>
+												<input type="radio" name="radioDemo"/> 
+												<span>Best-First-Search</span>
+											</label>
+										</div>
+									</div>
+
+        </Draggable>
       </div>
     );
   }
