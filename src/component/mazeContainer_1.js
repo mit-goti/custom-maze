@@ -48,7 +48,7 @@ class Mazecontainer_1 extends Component {
                 temp_mat.push(0);
                 c++;
             }
-            this.state.maze.push(<div className="row" style={{width: "2000px"}}> 
+            this.state.maze.push(<div className="row" style={{width: "3000px"}}> 
             {
                 temp.map(it => {return it;})
             }
