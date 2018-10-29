@@ -13,7 +13,9 @@ class Maze extends Component {
   render() {
     return (
       <div className="">
-        <Header />
+        {
+          //<Header />
+        }
         <Mazecontainer_1 /> 
       </div>
     );
