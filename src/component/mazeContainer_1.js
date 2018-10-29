@@ -202,7 +202,7 @@ class Mazecontainer_1 extends Component {
   render() {
     console.log(this.state.show+this.state.drag);
     return (
-      <div style = {{paddingTop : "50px"}}>
+      <div >
           {this.state.maze.map(it => {
               return it;
           })}

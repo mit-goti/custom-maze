@@ -23,16 +23,16 @@ body {
     border: 0.5px solid #d1d1d1;
 }
 .block{
-    position: absolute;
+    position: fixed;
     width: "100px";
     height: "100px";
     top: 17%;
     left: 85%;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    color: whitesmoke;
     border-radius: 8px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 5px 10px rgba(143, 123, 123, 0.5);
     cursor: default;
 }
 .white-grid-1:hover {
