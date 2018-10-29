@@ -30,7 +30,10 @@ class Mazecontainer_1 extends Component {
       startClicked: 0 ,
       endClicked: 0,
       start: {x: 0 , y: 0} ,
-      end: {x: 0 , y: 0}
+      end: {x: 0 , y: 0},
+      drag: false,
+      w: false,
+      b: false 
     };
 }
 
@@ -44,7 +47,7 @@ class Mazecontainer_1 extends Component {
             var temp = [];
             var temp_mat = [];
             for(var j = 0 ; j < 100 ; j++) {
-                temp.push(<div id={i+"_"+j} key={c} className="col" className="white-grid-1" onClick={this.Change_color.bind(this)}/>);
+                temp.push(<div id={i+"_"+j} key={c} className="col" className="white-grid-1" onClick={this.Change_color.bind(this)}  onMouseDown={this.handleMouseDown.bind(this) }  onMouseUp={this.handleMouseUp.bind(this)}  onMouseMove={this.handleMouseMove.bind(this)}/>);
                 temp_mat.push(0);
                 c++;
             }
@@ -58,7 +61,54 @@ class Mazecontainer_1 extends Component {
         this.setState({maze: this.state.maze , matrix: this.state.matrix});
         console.log(this.state.matrix);
     }
-
+    handleMouseMove(event)
+    {
+        if(this.state.drag&&this.state.w)
+        {
+            var th = this.fo(event.target.id);
+            var mat = this.state.matrix;
+            event.target.className = "black-grid-1";
+            mat[th.x][th.y] = 1;
+            if(this.state.startClicked === 1) {
+               event.target.style.backgroundColor = "green";
+               this.setState({startClicked: 0 , start: th})
+            }
+            if(this.state.endClicked === 1) {
+               event.target.style.backgroundColor = "red";
+               this.setState({endClicked: 0 , end: th});
+            }
+            this.setState({matrix: mat});
+        }
+        if(this.state.drag&&this.state.b)
+        {
+            var th = this.fo(event.target.id);
+            var mat = this.state.matrix;
+            event.target.className = "white-grid-1";
+            mat[th.x][th.y] = 0;
+            if(this.state.startClicked === 1) {
+               event.target.style.backgroundColor = "green";
+               this.setState({startClicked: 0 , start: th})
+            }
+            if(this.state.endClicked === 1) {
+               event.target.style.backgroundColor = "red";
+               this.setState({endClicked: 0 , end: th});
+            }
+            this.setState({matrix: mat});
+        }
+  
+    }
+    handleMouseDown(e)
+    {
+        if(e.target.className === "white-grid-1")
+        this.setState({drag: true, w: true , b: false});
+        else
+        this.setState({drag: true, w: false , b: true});
+    }
+    handleMouseUp(e)
+    {
+        console.log("Up");
+        this.setState({drag: false});
+    }
     fo(a) {
         var arr = a.split("_");
         var ret = {x : parseInt(arr[0]) , y : parseInt(arr[1])};
@@ -143,7 +193,7 @@ class Mazecontainer_1 extends Component {
 
 
   render() {
-    console.log(this.state.show);
+    console.log(this.state.show+this.state.drag);
     return (
       <div style = {{paddingTop : "50px"}}>
           {this.state.maze.map(it => {
