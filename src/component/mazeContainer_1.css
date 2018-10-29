@@ -1,0 +1,27 @@
+.white-grid-1 {
+    height: 20px;
+    width: 20px;
+    border: 1px dotted rgba(0, 0, 0, 0.397) ;
+}
+
+.black-grid-1 {
+    height: 20px;
+    width: 20px;
+    background: black;
+    border: 1px dotted rgba(255, 255, 255, 0.521);
+}
+
+.white-grid-1:hover {
+    background: blanchedalmond;
+    border: 1px dotted rgba(0, 0, 0, 0.397) ;
+}
+
+.testimonial-group > .row {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.testimonial-group > .row > .col{
+    display: inline-block;
+    float: none;
+}
