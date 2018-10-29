@@ -19,8 +19,9 @@ class Mazecontainer_1 extends Component {
       end: {x: 0 , y: 0},
       drag: false,
       w: false,
-      b: false 
-    };
+      b: false ,
+      tsp: 100
+   };
 }
 
  
@@ -175,7 +176,7 @@ class Mazecontainer_1 extends Component {
             console.log("Here");
             return;
         }
-        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "#9feaaf";
+        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "rgb(3, 156, 36)";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
         if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
@@ -195,12 +196,19 @@ class Mazecontainer_1 extends Component {
         if(this.state.stack.length === 0) {   
             return;
         }
-        setTimeout(() => {this.dfsNextStep()} , 100);
+        setTimeout(() => {this.dfsNextStep()} , this.state.tsp);
     }
 
-
+    handleDecreaseTSP()
+    {
+         this.setState({tsp: this.state.tsp-50>0?this.state.tsp-50:this.state.tsp})
+    }
+    handleIncreaseTSP()
+    {
+        this.setState({tsp: this.state.tsp+50})
+    }
   render() {
-    console.log(this.state.show+this.state.drag);
+    console.log(this.state.tsp);
     return (
       <div >
           {this.state.maze.map(it => {
@@ -215,6 +223,11 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <div style = {{position : "fixed" ,top: "90%" ,right: "85%"}}>
+        <i className="fa fa-plus-circle fa-6" aria-hidden="true" onClick={this.handleIncreaseTSP.bind(this)}></i>
+        <strong style={{fontSize: "30px",margin: "5px"}}>TPS</strong>
+        <i className="fa fa-minus-circle fa-6" aria-hidden="true" onClick={this.handleDecreaseTSP.bind(this)}></i>
+       </div>
         <Draggable>
         <div className="block">
         
