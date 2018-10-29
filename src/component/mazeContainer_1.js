@@ -205,6 +205,9 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <div className="block">
+        Hiii
+        </div>
       </div>
     );
   }
