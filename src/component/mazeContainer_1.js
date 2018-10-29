@@ -214,6 +214,14 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <div style = {{position : "fixed" , height : "500px" , width : "200px" , borderRadius : "10px" , top : "10%" , left : "85%" , backgroundColor : "rgba(100, 100, 100, 0.5)" , color : "white" , textAlign: "center" , lineHeight: "50px" }} onClick={this.onClickEnd.bind(this)}>
+            Algorithm
+            <br/>
+            <select style={{width: "150px" , color: "black"}}>
+                <option value="0" selected={true}>Select</option>
+                <option value="1">DFS</option>
+            </select>
+        </div>
       </div>
     );
   }
