@@ -221,29 +221,29 @@ class Mazecontainer_1 extends Component {
 										<p className="mb15">Select Algorithm</p>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo" checked=""/> 
+												<input type="radio" name="radioDemo" /> 
 												<span>A*</span>
 											</label>
 										</div>
-										<div className="md-radio md-warn">
+										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo"/> 
+												<input type="radio" name="radioDemo" checked={true}/> 
 												<span>DFS</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>Dijkstra</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>IDA*</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>Best-First-Search</span>
