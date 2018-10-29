@@ -64,6 +64,21 @@ class Mazecontainer_1 extends Component {
         this.setState({maze: this.state.maze , matrix: this.state.matrix});
         console.log(this.state.matrix);
     }
+
+    componentDidMount() {
+        console.log("Hi");
+        for(var i = 0 ; i < 100 ; i++) {
+            this.state.matrix[0][i] = 1;
+            this.state.matrix[99][i] = 1;
+            this.state.matrix[i][0] = 1;
+            this.state.matrix[i][99] = 1;
+            document.getElementById("0_"+i).className = "black-grid-1";
+            document.getElementById(i+"_0").className = "black-grid-1";
+            document.getElementById(i+"_99").className = "black-grid-1";
+            document.getElementById("99_"+i).className = "black-grid-1";
+        }
+    }
+
     handleMouseMove(event)
     {
         if(this.state.drag&&this.state.w)
@@ -100,18 +115,17 @@ class Mazecontainer_1 extends Component {
         }
   
     }
-    handleMouseDown(e)
-    {
+    handleMouseDown(e) {
         if(e.target.className === "white-grid-1")
-        this.setState({drag: true, w: true , b: false});
+            this.setState({drag: true, w: true , b: false});
         else
-        this.setState({drag: true, w: false , b: true});
+            this.setState({drag: true, w: false , b: true});
     }
-    handleMouseUp(e)
-    {
-        console.log("Up");
+
+    handleMouseUp(e) {
         this.setState({drag: false});
     }
+
     fo(a) {
         var arr = a.split("_");
         var ret = {x : parseInt(arr[0]) , y : parseInt(arr[1])};
@@ -131,14 +145,17 @@ class Mazecontainer_1 extends Component {
         }
         if(this.state.startClicked === 1) {
             event.target.style.backgroundColor = "green";
-            this.setState({startClicked: 0 , start: th})
+            this.setState({startClicked: 0 , start: th});
+            mat[th.x][th.y] = 0;
         }
         if(this.state.endClicked === 1) {
             event.target.style.backgroundColor = "red";
             this.setState({endClicked: 0 , end: th});
+            mat[th.x][th.y] = 0;
         }
         this.setState({matrix: mat});
         console.log(this.state.start);
+        console.log(this.state.end);
     }
 
     onClickStart() {
@@ -170,6 +187,11 @@ class Mazecontainer_1 extends Component {
 
     dfsNextStep() {
         var temp = this.state.stack.pop();
+        if(temp.x == this.state.end.x && temp.y == this.state.end.y) {
+            this.state.stack = [];
+            console.log("Here");
+            return;
+        }
         document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "#9feaaf";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
@@ -185,7 +207,12 @@ class Mazecontainer_1 extends Component {
         if(this.state.matrix[x][y-1] == 0 && this.state.visited[(x)+"_"+(y-1)] === 0) {
             this.state.stack.push({x:x , y:y-1});
         }
-        setTimeout(() => {this.dfsNextStep()} , 10);
+        var a = this.state.stack;
+        console.log(a);
+        if(this.state.stack.length === 0) {   
+            return;
+        }
+        setTimeout(() => {this.dfsNextStep()} , 100);
     }
 
 
