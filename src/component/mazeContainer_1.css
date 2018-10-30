@@ -15,7 +15,10 @@ body {
     color: rgba(0,0,0,.87);
     font-smoothing: antialiased;
 }
-
+.fa {
+    line-height: 1.57142857;
+    font-size: 30px;
+}
 .black-grid-1 {
     height: 30px;
     width: 30px;
@@ -26,7 +29,7 @@ body {
     position: fixed;
     width: "100px";
     height: "100px";
-    top: 17%;
+    top: 10%;
     left: 85%;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);

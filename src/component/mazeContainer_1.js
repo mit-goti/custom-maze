@@ -20,6 +20,7 @@ class Mazecontainer_1 extends Component {
       drag: false,
       w: false,
       b: false ,
+      tsp: 100
       height: 30
     };
 }
@@ -177,7 +178,7 @@ class Mazecontainer_1 extends Component {
             console.log("Here");
             return;
         }
-        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "#9feaaf";
+        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "rgb(3, 156, 36)";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
         if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
@@ -197,9 +198,18 @@ class Mazecontainer_1 extends Component {
         if(this.state.stack.length === 0) {   
             return;
         }
-        setTimeout(() => {this.dfsNextStep()} , 100);
+        setTimeout(() => {this.dfsNextStep()} , this.state.tsp);
     }
 
+
+    handleDecreaseTSP()
+    {
+         this.setState({tsp: this.state.tsp-50>0?this.state.tsp-50:this.state.tsp})
+    }
+    handleIncreaseTSP()
+    {
+        this.setState({tsp: this.state.tsp+50})
+    }
     zoomIn() {
         this.setState({height: this.state.height + 1});
         for(var i = 0 ; i < 100 ; i++) {
@@ -222,9 +232,8 @@ class Mazecontainer_1 extends Component {
         }
     }
 
-
   render() {
-    console.log(this.state.show+this.state.drag);
+    console.log(this.state.tsp);
     return (
       <div >
           {this.state.maze.map(it => {
@@ -239,6 +248,11 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <div style = {{position : "fixed" ,top: "90%" ,right: "85%"}}>
+        <i className="fa fa-plus-circle fa-6" aria-hidden="true" onClick={this.handleIncreaseTSP.bind(this)}></i>
+        <strong style={{fontSize: "30px",margin: "5px"}}>TPS</strong>
+        <i className="fa fa-minus-circle fa-6" aria-hidden="true" onClick={this.handleDecreaseTSP.bind(this)}></i>
+       </div>
 
         <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomIn.bind(this)}>
             +
@@ -253,29 +267,29 @@ class Mazecontainer_1 extends Component {
 										<p className="mb15">Select Algorithm</p>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo" checked=""/> 
+												<input type="radio" name="radioDemo" /> 
 												<span>A*</span>
 											</label>
 										</div>
-										<div className="md-radio md-warn">
+										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo"/> 
+												<input type="radio" name="radioDemo" checked={true}/> 
 												<span>DFS</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>Dijkstra</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>IDA*</span>
 											</label>
 										</div>
-										<div className="md-radio">
+										<div className="md-radio md-primary">
 											<label>
 												<input type="radio" name="radioDemo"/> 
 												<span>Best-First-Search</span>
