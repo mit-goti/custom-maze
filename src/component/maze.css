@@ -7140,8 +7140,8 @@ button.md-no-style {
 }
 .md-checkbox.md-primary label > input:checked + span:before,
 .md-radio.md-primary label > input:checked + span:before {
-  background: #3f51b5;
-  border-color: #3f51b5;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 .md-checkbox.md-warn label > input:checked + span:before,
 .md-radio.md-warn label > input:checked + span:before {
@@ -7187,8 +7187,8 @@ button.md-no-style {
   left: 4px;
 }
 .md-radio.md-primary label > input:checked + span:after {
-  background: #3f51b5;
-  border-color: #3f51b5;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 .md-radio.md-warn label > input:checked + span:after {
   background: #f44336;
