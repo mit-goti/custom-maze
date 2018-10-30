@@ -174,10 +174,9 @@ class Mazecontainer_1 extends Component {
         var temp = this.state.stack.pop();
         if(temp.x == this.state.end.x && temp.y == this.state.end.y) {
             this.state.stack = [];
-            console.log("Here");
             return;
         }
-        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "#9feaaf";
+        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "green";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
         if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
@@ -239,50 +238,48 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
-
-        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomIn.bind(this)}>
+        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" , 
+    boxShadow: "1px 1px grey"}} onClick={this.zoomIn.bind(this)}>
             +
         </div>
-
-        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "90%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomOut.bind(this)}>
+        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "90%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" ,
+    boxShadow: "1px 1px grey"}} onClick={this.zoomOut.bind(this)}>
             -
         </div>
         <Draggable>
-        <div className="block">
-        
-										<p className="mb15">Select Algorithm</p>
-										<div className="md-radio md-primary">
-											<label>
-												<input type="radio" name="radioDemo" checked=""/> 
-												<span>A*</span>
-											</label>
-										</div>
-										<div className="md-radio md-warn">
-											<label>
-												<input type="radio" name="radioDemo"/> 
-												<span>DFS</span>
-											</label>
-										</div>
-										<div className="md-radio">
-											<label>
-												<input type="radio" name="radioDemo"/> 
-												<span>Dijkstra</span>
-											</label>
-										</div>
-										<div className="md-radio">
-											<label>
-												<input type="radio" name="radioDemo"/> 
-												<span>IDA*</span>
-											</label>
-										</div>
-										<div className="md-radio">
-											<label>
-												<input type="radio" name="radioDemo"/> 
-												<span>Best-First-Search</span>
-											</label>
-										</div>
-									</div>
-
+            <div className="block">    
+                <p className="mb15">Select Algorithm</p>
+                <div className="md-radio md-primary">
+                    <label>
+                        <input type="radio" name="radioDemo" checked=""/> 
+                        <span>A*</span>
+                    </label>
+                </div>
+                <div className="md-radio md-warn">
+                    <label>
+                        <input type="radio" name="radioDemo"/> 
+                        <span>DFS</span>
+                    </label>
+                </div>
+                <div className="md-radio">
+                    <label>
+                        <input type="radio" name="radioDemo"/> 
+                        <span>Dijkstra</span>
+                    </label>
+                </div>
+                <div className="md-radio">
+                    <label>
+                        <input type="radio" name="radioDemo"/> 
+                        <span>IDA*</span>
+                    </label>
+                </div>
+                <div className="md-radio">
+                    <label>
+                        <input type="radio" name="radioDemo"/> 
+                        <span>Best-First-Search</span>
+                    </label>
+                </div>
+            </div>
         </Draggable>
       </div>
     );
