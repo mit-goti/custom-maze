@@ -21,7 +21,8 @@ class Mazecontainer_1 extends Component {
       w: false,
       b: false ,
       tsp: 100
-   };
+      height: 30
+    };
 }
 
  
@@ -38,7 +39,7 @@ class Mazecontainer_1 extends Component {
                 temp_mat.push(0);
                 c++;
             }
-            this.state.maze.push(<div className="row" style={{width: "3000px"}}> 
+            this.state.maze.push(<div id = {i} className="row" style={{width: "3000px"}}> 
             {
                 temp.map(it => {return it;})
             }
@@ -143,6 +144,7 @@ class Mazecontainer_1 extends Component {
     }
 
     onClickStart() {
+
         var x = document.getElementById(this.state.start.x + "_" + this.state.start.y);
         x.style.backgroundColor = "white";
         this.setState({startClicked: 1 , endClicked: 0});
@@ -199,6 +201,7 @@ class Mazecontainer_1 extends Component {
         setTimeout(() => {this.dfsNextStep()} , this.state.tsp);
     }
 
+
     handleDecreaseTSP()
     {
          this.setState({tsp: this.state.tsp-50>0?this.state.tsp-50:this.state.tsp})
@@ -207,6 +210,28 @@ class Mazecontainer_1 extends Component {
     {
         this.setState({tsp: this.state.tsp+50})
     }
+    zoomIn() {
+        this.setState({height: this.state.height + 1});
+        for(var i = 0 ; i < 100 ; i++) {
+            document.getElementById(i).style.width = (this.state.height*100) + "px";
+            for(var j = 0 ; j < 100 ; j++) {
+                document.getElementById(i+"_"+j).style.height = this.state.height + "px";
+                document.getElementById(i+"_"+j).style.width = this.state.height + "px";
+            }
+        }
+    }
+
+    zoomOut() {
+        this.setState({height: this.state.height - 1});
+        for(var i = 0 ; i < 100 ; i++) {
+            document.getElementById(i).style.width = (this.state.height*100) + "px";
+            for(var j = 0 ; j < 100 ; j++) {
+                document.getElementById(i+"_"+j).style.height = this.state.height + "px";
+                document.getElementById(i+"_"+j).style.width = this.state.height + "px";
+            }
+        }
+    }
+
   render() {
     console.log(this.state.tsp);
     return (
@@ -228,6 +253,14 @@ class Mazecontainer_1 extends Component {
         <strong style={{fontSize: "30px",margin: "5px"}}>TPS</strong>
         <i className="fa fa-minus-circle fa-6" aria-hidden="true" onClick={this.handleDecreaseTSP.bind(this)}></i>
        </div>
+
+        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomIn.bind(this)}>
+            +
+        </div>
+
+        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "90%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomOut.bind(this)}>
+            -
+        </div>
         <Draggable>
         <div className="block">
         
