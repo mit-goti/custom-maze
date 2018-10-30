@@ -254,11 +254,11 @@ class Mazecontainer_1 extends Component {
         </div>
 
        
-       <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" , 
+       <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "80%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" , 
     boxShadow: "1px 1px grey"}} onClick={this.zoomIn.bind(this)}>
          +
         </div>
-        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "90%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" ,
+        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , fontWeight: "bold" , border: "1px solid black" , fontSize: "30px" , padding: "3px" ,
     boxShadow: "1px 1px grey"}} onClick={this.zoomOut.bind(this)}>
             -
         </div>
