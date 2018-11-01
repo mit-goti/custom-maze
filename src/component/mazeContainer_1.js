@@ -227,7 +227,7 @@ class Mazecontainer_1 extends Component {
     {
         this.setState({tsp: this.state.tsp+50})
     }
-<<<<<<< HEAD
+
     handleAlgorithm(e)
     {
         console.log(e.target.id);
