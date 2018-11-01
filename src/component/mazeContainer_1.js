@@ -12,17 +12,17 @@ class Mazecontainer_1 extends Component {
       matrix: {} ,
       startClicked: 0 ,
       endClicked: 0,
-      start: {x: 0 , y: 0} ,
-      end: {x: 0 , y: 0} ,
+      start: {} ,
+      end: {} ,
       stack: [] ,
       visited: {} ,
-      end: {x: 0 , y: 0},
       drag: false,
       w: false,
       b: false ,
       tsp: 100,
       maze: [],
-      height: 30
+      height: 30,
+      running: false
    };
 }
 
@@ -164,6 +164,7 @@ class Mazecontainer_1 extends Component {
     }
 
     handlerGo() {
+        if(this.state.start)
         this.dfs();
     }
 
@@ -175,15 +176,16 @@ class Mazecontainer_1 extends Component {
             for(var j = 0 ; j < 100 ; j++) 
                 this.state.visited[i+"_"+j] = 0;
         }
-        this.dfsNextStep();
+        this.setState({running: true},()=>{this.dfsNextStep()});
     }
 
     dfsNextStep() {
         var temp = this.state.stack[this.state.stack.length-1];
-        console.log(temp.x+" "+temp.y+" "+this.state.end.x+" "+this.state.end.y);
+        
         if(temp.x == this.state.end.x && temp.y == this.state.end.y) {
-            this.state.stack = [];
+            document.getElementById(temp.x+"_"+temp.y).className = "green-grid-1";
             console.log("Here");
+            this.setState({running: false});
             return;
         }
         var flag=1;
@@ -213,6 +215,7 @@ class Mazecontainer_1 extends Component {
             document.getElementById(temp.x+"_"+temp.y).className = "red-grid-1";
         }
         if(this.state.stack.length === 0) {   
+            this.setState({running: false});
             return;
         }
         setTimeout(() => {this.dfsNextStep()} , this.state.tsp);
@@ -374,9 +377,15 @@ class Mazecontainer_1 extends Component {
           {this.state.maze.map(it => {
               return it;
           })}
-        <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "50%" , backgroundColor : "rgba(135, 219, 61, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.handlerGo.bind(this)}>
-            Go
-        </div>
+          <Draggable>
+        {this.state.running?(<div style = {{position : "fixed"   , top : "80%" ,borderRadius : "50px",backgroundColor : "white",color : "red", left : "50%" , pointerEvents: "none"}} onClick={this.handlerGo.bind(this)} disable={true}>
+          <i class="fas fa-running fa-8x"></i>
+        </div>):(<div style = {{position : "fixed"   , top : "80%" ,borderRadius : "50px",backgroundColor : "white",color : "rgba(135, 219, 61, 0.9)", left : "50%"}} onClick={this.handlerGo.bind(this)}>
+          <i className="fas fa-play-circle  fa-8x" ></i>
+        </div>)}      
+        
+       
+       </Draggable>
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "90%" , backgroundColor : "rgba(135, 219, 61, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickStart.bind(this)}>
             Start
         </div>
@@ -386,19 +395,17 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "85%" , backgroundColor : "red" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.handleClear.bind(this)}>
             Clear
         </div>
-        <div style = {{position : "fixed" ,top: "90%" ,right: "85%"}}>
+        <div style = {{position : "fixed" ,top: "90%" ,right: "88%"}}>
         <i className="fa fa-plus-circle fa-6" aria-hidden="true" onClick={this.handleIncreaseTSP.bind(this)}></i>
-        <strong style={{fontSize: "30px",margin: "5px"}}>TPS</strong>
+        <strong style={{fontSize: "25px",margin: "5px"}}>TPS</strong>
         <i className="fa fa-minus-circle fa-6" aria-hidden="true" onClick={this.handleDecreaseTSP.bind(this)}></i>
        </div>
-
-        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "85%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomIn.bind(this)}>
-            +
-        </div>
-
-        <div style = {{position : "fixed" , height : "30px" , width : "30px" , borderRadius : "30px" , top : "90%" , left : "5%" , backgroundColor : "white" , color : "black" , textAlign: "center" , lineHeight: "30px" , fontWeight: "bold" , border: "1px solid black"}} onClick={this.zoomOut.bind(this)}>
-            -
-        </div>
+       <div style = {{position : "fixed" ,top: "90%" ,right: "75%"}}>
+        <i className="fa fa-plus-circle fa-6" aria-hidden="true"  onClick={this.zoomIn.bind(this)}></i>
+        <strong style={{fontSize: "25px",margin: "5px"}}>Zoom</strong>
+        <i className="fa fa-minus-circle fa-6" aria-hidden="true"  onClick={this.zoomOut.bind(this)}></i>
+       </div>
+        
         <Draggable>
         <div className="block">
         
