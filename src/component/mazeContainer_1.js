@@ -20,7 +20,8 @@ class Mazecontainer_1 extends Component {
       drag: false,
       w: false,
       b: false ,
-      tsp: 100
+      tsp: 100,
+      maze: []
    };
 }
 
@@ -61,6 +62,7 @@ class Mazecontainer_1 extends Component {
             document.getElementById(i+"_99").className = "black-grid-1";
             document.getElementById("99_"+i).className = "black-grid-1";
         }
+        console.log(this.state.maze);
     }
 
     handleMouseMove(event)
@@ -72,11 +74,11 @@ class Mazecontainer_1 extends Component {
             event.target.className = "black-grid-1";
             mat[th.x][th.y] = 1;
             if(this.state.startClicked === 1) {
-               event.target.style.backgroundColor = "green";
+               event.target.className="green-grid-1";
                this.setState({startClicked: 0 , start: th})
             }
             if(this.state.endClicked === 1) {
-               event.target.style.backgroundColor = "red";
+               event.target.style.className = "red-grid-1";
                this.setState({endClicked: 0 , end: th});
             }
             this.setState({matrix: mat});
@@ -128,12 +130,12 @@ class Mazecontainer_1 extends Component {
             mat[th.x][th.y] = 0;
         }
         if(this.state.startClicked === 1) {
-            event.target.style.backgroundColor = "green";
+            event.target.className = "green-grid-1";
             this.setState({startClicked: 0 , start: th});
             mat[th.x][th.y] = 0;
         }
         if(this.state.endClicked === 1) {
-            event.target.style.backgroundColor = "red";
+            event.target.className = "red-grid-1";
             this.setState({endClicked: 0 , end: th});
             mat[th.x][th.y] = 0;
         }
@@ -143,14 +145,20 @@ class Mazecontainer_1 extends Component {
     }
 
     onClickStart() {
+        if(x)
+        {
         var x = document.getElementById(this.state.start.x + "_" + this.state.start.y);
-        x.style.backgroundColor = "white";
+        x.className = "white-grid-1";
+        }
         this.setState({startClicked: 1 , endClicked: 0});
     }
 
     onClickEnd() {
+        if(x)
+        {
         var x = document.getElementById(this.state.end.x + "_" + this.state.end.y);
-        x.style.backgroundColor = "white";
+        x.className = "black-grid-1";
+        }
         this.setState({endClicked: 1 , startClicked: 0});
     }
 
@@ -170,29 +178,39 @@ class Mazecontainer_1 extends Component {
     }
 
     dfsNextStep() {
-        var temp = this.state.stack.pop();
+        var temp = this.state.stack[this.state.stack.length-1];
+        console.log(temp.x+" "+temp.y+" "+this.state.end.x+" "+this.state.end.y);
         if(temp.x == this.state.end.x && temp.y == this.state.end.y) {
             this.state.stack = [];
             console.log("Here");
             return;
         }
-        document.getElementById(temp.x+"_"+temp.y).style.backgroundColor = "rgb(3, 156, 36)";
+        var flag=1;
+        document.getElementById(temp.x+"_"+temp.y).className = "green-grid-1";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
         if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
+            flag=0;
             this.state.stack.push({x:x+1 , y:y});
         }
         if(this.state.matrix[x-1][y] == 0 && this.state.visited[(x-1)+"_"+y] === 0) {
+            flag=0;
             this.state.stack.push({x:x-1 , y:y});
         }
         if(this.state.matrix[x][y+1] == 0 && this.state.visited[(x)+"_"+(y+1)] === 0) {
+            flag=0;
             this.state.stack.push({x:x , y:y+1});
         }
         if(this.state.matrix[x][y-1] == 0 && this.state.visited[(x)+"_"+(y-1)] === 0) {
+            flag=0;
             this.state.stack.push({x:x , y:y-1});
         }
         var a = this.state.stack;
-        console.log(a);
+        if(flag)
+        {
+            this.state.stack.pop();
+            document.getElementById(temp.x+"_"+temp.y).className = "red-grid-1";
+        }
         if(this.state.stack.length === 0) {   
             return;
         }
@@ -207,10 +225,127 @@ class Mazecontainer_1 extends Component {
     {
         this.setState({tsp: this.state.tsp+50})
     }
-  render() {
+    handleAlgorithm(e)
+    {
+        console.log(e.target.id);
+    }
+    handleCustomMaze(e)
+    {
+        console.log(e.target.id);
+        for(var i=1;i<99;i++)
+        {
+            for(var j=1;j<99;j++)
+            {
+            this.state.matrix[i][j]=0;
+            document.getElementById(i+"_"+j).className="white-grid-1"
+            }
+        }
+        console.log(this.state.matrix);
+        if(e.target.id==="sam")
+        {
+            const temp="*******.********.....*.*.....**.***.*.*****.**.*.*.*.....*.**.*.*.*****.*.**.*.........*.****.*********.**.....*.......**.***.*.********.*.*.*.......**.*.*.*******.**...*...*...*.******.*.*.*.*.**...*.*.*.*.*.**.***.***.*.*.**.........*...**********.*****";
+            var c=0;
+            for(var i=1;i<18;i++)
+            {
+                for(var j=15;j<30;j++)
+                {
+                    if(temp[c]==="*")
+                    {
+                       this.state.matrix[i][j]=1;
+                       document.getElementById(i+"_"+j).className="black-grid-1";
+                    }
+                    else
+                    {
+                        this.state.matrix[i][j]=0;
+                        document.getElementById(i+"_"+j).className="white-grid-1";
+                    }
+                    c++;
+                }
+            }
+            
+           
+            document.getElementById(1+"_"+22).className="green-grid-1"
+            document.getElementById(17+"_"+24).className="red-grid-1"
+            this.setState({matrix: this.state.matrix,start: {x: 1,y: 22},end: {x: 17,y: 24}})
+     
+        }
+        if(e.target.id==="jp")
+        {
+            const temp=
+           "*************************************************************......*...*...*.......*.......*.........*.........*.....*...**.***.*.*.*.***.*****.*.*****.*.*****.*.***.*****.*****.***.**.*...*.*.*.........*...*...*.*.*.*...*.....*.........*...*.**.*****.*.***************.***.*.*.*.*********.***.***.***.*.**.......*.*.....*.......*.....*...*.*.....*...*...*.*...*...**********.*.***.*.*****.*.*******.*.*.*.***.*******.***.***.**...*...*.*.*...*.*.*...*.........*.*.*.*...*.......*...*...****.*.*.*.*.*.***.*.*.***.*********.*.***.***.*****.*.*****.**...*.*.*.*.*.*.*.*.....*...*.......*...*.....*.*...*.......**.***.*.*.***.*.*.***.*****.*.***.*****.*******.*.*****.******...*.*.*.......*.*.*.*.....*...*.........*...*...*...*.....****.*.*.*****.*.*.*.*.*.*.*****.*********.*.*.*****.*******.**.*.*.*.......*...*.*...*.*.....*.........*.*.*...*.*.......**.*.*.*************.*****.*.*****.*********.*.***.*.*.***.*.**.*...*.....*.....*.*...*.*...*...*.........*...*.....*...*.**.*****.*.***.*****.*.***.*****.***.*.*********.***.*******.**...*...*...*.........*...*.....*...*...*.*...*.*.*...*.....**.*.*******.*******.***.*.*.***********.*.*.*.*.*.*****.******.*...*...........*.....*.*.*.*.....*...*...*...*...*...*...**.***.*.*********.*********.*.*.***.*.*************.*.*****.**.*...*.*...*...*.......*...*.*.*.*.*.*.......*...*...*.*...**.*.***.*.*.*.*.*******.*.***.*.*.*.*.*.*****.*.*.***.*.*.****.*...*.*.*...*...*...*...*...*.*.*.*.......*.*.*.....*...*.**.***.*.*.*******.*.*.*****.*.*.*.*.*******.*.*.*******.***.**.*...*.*.......*.*.*.......*.*...*.*.....*.*.........*.....**.*.***.*********.*.***.*****.*****.*.***.*.***.*****.*.***.**.*...*.....*.......*.*...*.*...*.....*.*.....*.*.....*.*.*.**.***.*****.*.*******.***.*.***.*******.*****.*.*.*****.*.*.**.*...*...*.*...*...*.....*...*...*.*...*.*...*.*...*.*.*.*.**.*.***.*.*.***.***.*********.***.*.*.*.*.*.***.***.*.*.*.*.**.*.....*.*...*.....*.*.....*...*.*...*.*.*...*.*...*.*.*.*.**.***********.*.*****.*.***.***.*.***.*.*.***.*.*****.*.*.*.**.......*.....*.*...*.....*...*...*...*.*.*...*...*...*.*...**.*****.*.*****.*.*.*********.*********.*.*.*****.***.*.******...*.....*...*.*.*.....*...*.............*.*...*...*...*...**.***.***.*.*.*.*.*****.*.*****.***********.*.*.*.*.*.*****.**...*...*.*.*...*...*...*...*.*.........*...*.*.*.*.........****.***.***.*******.*.*****.*.*********.*.***.*.*.***.********.*...*.*.......*...*.*...*.*...*...*.*...*.*.*...*...*.*...**.***.*.*.*******.***.*.*.*.***.*.*.*.*****.*.*****.***.*.*.**.*.*.*.*.*.....*.*...*.*.*...*...*...*...*.......*.*...*.*.**.*.*.*.*.*.***.*.*.***.*****.*.*****.***.***.***.*.*.*.***.**.....*...*...*.*.*.......*...*.*...*...*.*.*.*...*...*.....******.*********.*.*******.*.***.*.*.*.*.*.*.*.*.*******.******.....*.....*...*.*.......*...*...*.*.*...*...*.*...*...*...**.*******.*.*.***.*.*********.*****.***********.*.*.***.*.*.**...*.*...*...*.*.*.*.*...*...*...*.*.....*.......*...*...*.****.*.*.***.***.*.*.*.*.*.*.***.*.*.*.***.*.*****.***.*****.**.....*.*...*...*.*.....*...*.*.*...*...*...*...*.*.....*.*.****.*.*.*.***.*.*.*.*********.*.*******.***.*.*.***.***.*.*.**...*...*...*.*...*.*...*...*.*...*...*...*.*.*.....*...*...**.*********.*.*****.*.*.*.*.*.***.***.*.*.***.*******.*****.**.*.........*.*.....*.*...*.*.....*...*.*...*.*.........*...**.*********.*.*****.*.*****.***.***.*******.*.*******.*.*.****.........*.*.....*.*...*.*.*...*.*.........*.*.......*.*...****.*******.*****.*.***.*.*.*.***.***********.*.*******.***.**.*.......*.*...*.*.*...*.*.*.*...*.......*...*.*.....*.*.*.**.*******.*.*.*.*.*.*.*.*.*.*.*.*.*.***.***.***.*.***.*.*.*.**.........*...*...*...*.*.......*.*...*.....*...*...*...*....*************************************************************" 
+            var c=0;
+            for(var i=1;i<62;i++)
+            {
+                for(var j=10;j<71;j++)
+                {
+                    if(temp[c]==="*")
+                    {
+                       this.state.matrix[i][j]=1;
+                       document.getElementById(i+"_"+j).className="black-grid-1";
+                    }
+                    else
+                    {
+                        this.state.matrix[i][j]=0;
+                        document.getElementById(i+"_"+j).className="white-grid-1";
+                    }
+                    c++;
+                }
+            }
+            this.state.matrix[2][9]=1;
+           
+            document.getElementById(2+"_"+9).className="black-grid-1"
+            document.getElementById(2+"_"+10).className="green-grid-1"
+            document.getElementById(60+"_"+70).className="red-grid-1"
+            
+            console.log(this.state.matrix);
+            this.setState({matrix: this.state.matrix,start: {x: 2,y: 10}, end: {x: 60,y: 70}})
+     
+        }
+        if(e.target.id==='G')
+        {
+            const temp="***.**.****************....***************..****.........****..****..*******.****.****..********...**.****.***********.**.****........***..**.**************..***................***********************";
+            var c=0;
+            for(var i=1;i<11;i++)
+            {
+                for(var j=15;j<35;j++)
+                {
+                    if(temp[c]==="*")
+                    {
+                       this.state.matrix[i][j]=1;
+                       document.getElementById(i+"_"+j).className="black-grid-1";
+                    }
+                    else
+                    {
+                        this.state.matrix[i][j]=0;
+                        document.getElementById(i+"_"+j).className="white-grid-1";
+                    }
+                    c++;
+                }
+            }
+          
+            document.getElementById(1+"_"+18).className="green-grid-1"
+            document.getElementById(1+"_"+21).className="red-grid-1"
+            console.log(this.state.matrix);
+            this.setState({matrix: this.state.matrix,start: {x: 1,y: 18},end: {x: 1,y: 21}})
+     
+        }
+    }
+    handleClear()
+    {
+        for(var i=1;i<99;i++)
+        {
+            for(var j=1;j<99;j++)
+            {
+            this.state.matrix[i][j]=0;
+            document.getElementById(i+"_"+j).className="white-grid-1"
+            }
+        }
+        this.setState({matrix: this.state.matrix,start: {},end: {}})
+    }
+    render() {
     console.log(this.state.tsp);
     return (
-      <div >
+      <div style={{paddingTop: "50px",paddingLeft: "10px"}}>
           {this.state.maze.map(it => {
               return it;
           })}
@@ -223,6 +358,9 @@ class Mazecontainer_1 extends Component {
         <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "95%" , backgroundColor : "rgba(209, 125, 51, 0.9)" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.onClickEnd.bind(this)}>
             End
         </div>
+        <div style = {{position : "fixed" , height : "50px" , width : "50px" , borderRadius : "50px" , top : "90%" , left : "85%" , backgroundColor : "red" , color : "white" , textAlign: "center" , lineHeight: "50px" , fontWeight: "bold"}} onClick={this.handleClear.bind(this)}>
+            Clear
+        </div>
         <div style = {{position : "fixed" ,top: "90%" ,right: "85%"}}>
         <i className="fa fa-plus-circle fa-6" aria-hidden="true" onClick={this.handleIncreaseTSP.bind(this)}></i>
         <strong style={{fontSize: "30px",margin: "5px"}}>TPS</strong>
@@ -234,32 +372,51 @@ class Mazecontainer_1 extends Component {
 										<p className="mb15">Select Algorithm</p>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo" /> 
+												<input type="radio" id="A" name="algo" onChange={this.handleAlgorithm.bind(this)}/> 
 												<span>A*</span>
 											</label>
 										</div>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo" checked={true}/> 
+												<input type="radio" id="dfs" name="algo" onChange={this.handleAlgorithm.bind(this)}/> 
 												<span>DFS</span>
 											</label>
 										</div>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo"/> 
+												<input type="radio" id="djkstra"name="algo" onChange={this.handleAlgorithm.bind(this)}/> 
 												<span>Dijkstra</span>
 											</label>
 										</div>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo"/> 
+												<input type="radio" id="ida" name="algo" onChange={this.handleAlgorithm.bind(this)}/> 
 												<span>IDA*</span>
 											</label>
 										</div>
 										<div className="md-radio md-primary">
 											<label>
-												<input type="radio" name="radioDemo"/> 
+												<input type="radio" id="best" name="algo" onChange={this.handleAlgorithm.bind(this)}/> 
 												<span>Best-First-Search</span>
+											</label>
+										</div>
+                                        <p className="mb15">Custom Maze</p>
+										<div className="md-radio md-primary">
+											<label>
+												<input type="radio" id="sam" name="maze" onChange={this.handleCustomMaze.bind(this)} /> 
+												<span>Sam's Maze</span>
+											</label>
+										</div>
+                                        <div className="md-radio md-primary">
+											<label>
+												<input type="radio" id="jp" name="maze" onChange={this.handleCustomMaze.bind(this)} /> 
+												<span>Jp's Maze</span>
+											</label>
+										</div>
+                                        <div className="md-radio md-primary">
+											<label>
+												<input type="radio" id="G" name="maze" onChange={this.handleCustomMaze.bind(this)} /> 
+												<span>G's Maze</span>
 											</label>
 										</div>
 									</div>
