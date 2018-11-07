@@ -180,6 +180,11 @@ class Mazecontainer_1 extends Component {
     }
 
     dfsNextStep() {
+
+        if(this.state.stack.length === 0) {   
+            this.setState({running: false});
+            return;
+        }
         var temp = this.state.stack[this.state.stack.length-1];
         
         if(temp.x == this.state.end.x && temp.y == this.state.end.y) {
@@ -214,10 +219,7 @@ class Mazecontainer_1 extends Component {
             this.state.stack.pop();
             document.getElementById(temp.x+"_"+temp.y).className = "red-grid-1";
         }
-        if(this.state.stack.length === 0) {   
-            this.setState({running: false});
-            return;
-        }
+        
         setTimeout(() => {this.dfsNextStep()} , this.state.tsp);
     }
 
