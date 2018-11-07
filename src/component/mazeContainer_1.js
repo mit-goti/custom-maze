@@ -23,6 +23,7 @@ class Mazecontainer_1 extends Component {
       maze: [],
       height: 30,
       running: false
+   };
 }
 
  
@@ -461,7 +462,8 @@ class Mazecontainer_1 extends Component {
 											</label>
 										</div>
 									</div>
-</Draggable>
+
+        </Draggable>
       </div>
     );
   }
