@@ -1,19 +1,16 @@
 {
-  "name": "maze",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "heap": "^0.2.6",
-    "react": "^16.5.0",
-    "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.5.0",
-    "react-draggable": "^3.0.5",
-    "react-scripts": "1.1.5"
-  },
+  "name": "loi",
+  "version": "1.0.0",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "client": "cd client && yarn start",
+    "server": "nodemcd on server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
   }
 }
