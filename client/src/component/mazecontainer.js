@@ -387,7 +387,9 @@ class Mazecontainer extends Component {
       setTimeout(() => {
         this.AstarNextStep(visit,parent , algo);
       }, this.state.time?this.state.time:10);
-    
+      if(this.state.stack.length === 0) {   
+        return;
+      }
     }
     
     else {

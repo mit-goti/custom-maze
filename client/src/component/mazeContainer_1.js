@@ -21,7 +21,9 @@ class Mazecontainer_1 extends Component {
       w: false,
       b: false ,
       tsp: 100 ,
-      height: 30
+      height: 30 ,
+      heap: [] ,
+      selected_algo: 1
     };
 }
 
@@ -157,17 +159,87 @@ class Mazecontainer_1 extends Component {
     }
 
     handlerGo() {
-        this.dfs();
+        console.log(this.state.selected_algo);
+        if(this.state.selected_algo == 1)
+            this.dfs();
+        if(this.state.selected_algo == 2)
+            this.Astar(0);
+        if(this.state.selected_algo == 3)
+            this.Astar(1);
+    }
+
+    pre_algo() {
+        for(var i = 0 ; i < 100 ; i++) {
+            for(var j = 0 ; j < 100 ; j++) 
+                this.state.visited[i+"_"+j] = 0;
+        }
+    }
+
+    Astar(algo) {
+        this.state.heap = new Heap(function(a,b) {
+            return a.cost - b.cost;
+        });
+        if(algo === 0)
+            var cost=Math.abs(this.state.start.x-this.state.end.x)+Math.abs(this.state.start.y-this.state.end.y);
+        else
+            var cost=((this.state.start.x-this.state.end.x)*(this.state.start.x-this.state.end.x))+((this.state.start.y-this.state.end.y)*(this.state.start.y-this.state.end.y));
+        this.state.heap.push({cost: cost,x: this.state.start.x,y: this.state.start.y});
+        this.pre_algo();
+        this.AstarNextStep();
+    }
+
+    AstarNextStep(algo) {
+        var temp = this.state.heap.pop();
+        if(temp.x === this.state.end.x && temp.y === this.state.end.y) {
+            this.state.heap = [];
+            return;
+        }
+        document.getElementById(temp.x + "_" + temp.y).style.backgroundColor = "green";
+        this.state.visited[temp.x+"_"+temp.y] = 1;
+        var x = temp.x , y = temp.y;
+        if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
+            if(algo == 0) {
+                this.state.heap.push({cost: Math.abs(x+1-this.state.end.x) + Math.abs(y-this.state.end.y) ,x:x+1 , y:y});
+            }
+            else {
+                this.state.heap.push({cost:((x+1-this.state.end.x)*(x+1-this.state.end.x) + (y-this.state.end.y)*(y-this.state.end.y)), x:x+1 , y:y});
+            }
+        }
+        if(this.state.matrix[x-1][y] == 0 && this.state.visited[(x-1)+"_"+y] === 0) {
+            if(algo == 0) {
+                this.state.heap.push({cost: Math.abs(x-1-this.state.end.x) + Math.abs(y-this.state.end.y) ,x:x-1 , y:y});
+            }
+            else {
+                this.state.heap.push({cost:((x-1-this.state.end.x)*(x-1-this.state.end.x) + (y-this.state.end.y)*(y-this.state.end.y)), x:x-1 , y:y});
+            }
+        }
+        if(this.state.matrix[x][y+1] == 0 && this.state.visited[(x)+"_"+(y+1)] === 0) {
+            if(algo == 0) {
+                this.state.heap.push({cost: Math.abs(x-this.state.end.x) + Math.abs(y+1-this.state.end.y) ,x:x , y:y+1});
+            }
+            else {
+                this.state.heap.push({cost:((x-this.state.end.x)*(x-this.state.end.x) + (y+1-this.state.end.y)*(y+1-this.state.end.y)), x:x , y:y+1});
+            }
+        }
+        if(this.state.matrix[x][y-1] == 0 && this.state.visited[(x)+"_"+(y-1)] === 0) {
+            if(algo == 0) {
+                this.state.heap.push({cost: Math.abs(x-this.state.end.x) + Math.abs(y-1-this.state.end.y) ,x:x , y:y+1});
+            }
+            else {
+                this.state.heap.push({cost:((x-this.state.end.x)*(x-this.state.end.x) + (y-1-this.state.end.y)*(y-1-this.state.end.y)), x:x , y:y-1});
+            }
+        }
+        if(this.state.heap.length == 0) {
+            return;
+        }
+        setTimeout(()=>{this.AstarNextStep()} , this.state.tsp);
     }
 
     dfs() {
         this.state.stack = [];
         this.state.stack.push(this.state.start);
         this.state.visited = {};
-        for(var i = 0 ; i < 100 ; i++) {
-            for(var j = 0 ; j < 100 ; j++) 
-                this.state.visited[i+"_"+j] = 0;
-        }
+        this.pre_algo();
         this.dfsNextStep();
     }
 
@@ -231,6 +303,11 @@ class Mazecontainer_1 extends Component {
         }
     }
 
+    handlerRadio(event) {
+        this.state.selected_algo = event.target.value;
+        console.log(this.state.selected_algo);
+    }
+
   render() {
     console.log(this.state.tsp);
     return (
@@ -263,38 +340,19 @@ class Mazecontainer_1 extends Component {
             -
         </div>
         <Draggable>
-            <div className="block">    
+            <div className="block" onChange={this.handlerRadio.bind(this)}>    
                 <p className="mb15">Select Algorithm</p>
-                <div className="md-radio md-primary">
-                    <label>
-                        <input type="radio" name="radioDemo" checked=""/> 
-                        <span>A*</span>
-                    </label>
-                </div>
-                <div className="md-radio md-warn">
-                    <label>
-                        <input type="radio" name="radioDemo"/> 
-                        <span>DFS</span>
-                    </label>
-                </div>
-                <div className="md-radio">
-                    <label>
-                        <input type="radio" name="radioDemo"/> 
-                        <span>Dijkstra</span>
-                    </label>
-                </div>
-                <div className="md-radio">
-                    <label>
-                        <input type="radio" name="radioDemo"/> 
-                        <span>IDA*</span>
-                    </label>
-                </div>
-                <div className="md-radio">
-                    <label>
-                        <input type="radio" name="radioDemo"/> 
-                        <span>Best-First-Search</span>
-                    </label>
-                </div>
+                <select
+                    className="form-control"
+                    onChange={this.handlerRadio.bind(this)}
+                >
+                <option value="0" selected={true}>
+                Select
+                </option>
+                <option value="1">DFS</option>
+                <option value="2">A* Manhatten</option>
+                <option value="3">A* Euclid</option>
+            </select>
             </div>
         </Draggable>
       </div>
