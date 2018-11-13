@@ -196,11 +196,12 @@ class Mazecontainer_1 extends Component {
 
     AstarNextStep(algo) {
         var temp = this.state.heap.pop();
+        console.log(temp);
         if(temp.x === this.state.end.x && temp.y === this.state.end.y) {
             this.state.heap = [];
             return;
         }
-        document.getElementById(temp.x + "_" + temp.y).style.backgroundColor = "green";
+        document.getElementById(temp.x + "_" + temp.y).className = "green-grid-1";
         this.state.visited[temp.x+"_"+temp.y] = 1;
         var x = temp.x , y = temp.y;
         if(this.state.matrix[x+1][y] == 0 && this.state.visited[(x+1)+"_"+y] === 0) {
