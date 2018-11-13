@@ -3,6 +3,16 @@
     width: 30px;
     border: 0.5px solid #d1d1d1 ;
 }
+.green-grid-1{
+    height: 30px;
+    width: 30px;
+    background-color: green;
+}
+.red-grid-1{
+    height: 30px;
+    width: 30px;
+    background-color: red;
+}
 body {
     margin: 0;
     padding: 0;
@@ -13,7 +23,6 @@ body {
     font-size: 14px;
     line-height: 1.4285em;
     color: rgba(0,0,0,.87);
-    font-smoothing: antialiased;
 }
 .fa {
     line-height: 1.57142857;
@@ -22,17 +31,17 @@ body {
 .black-grid-1 {
     height: 30px;
     width: 30px;
-    background: #d1d1d1;
-    border: 0.5px solid #d1d1d1;
+    background: #3b3838;
+    border: 0.5px solid #3b3838;
 }
 .block{
     position: fixed;
     width: "100px";
     height: "100px";
-    top: 10%;
+    top: 13%;
     left: 85%;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(74,189,172, 0.95);
     color: whitesmoke;
     border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(143, 123, 123, 0.5);
